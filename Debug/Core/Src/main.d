@@ -29,15 +29,15 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/include/FreeRTOS.h \
- C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/include/FreeRTOSConfig.h \
- C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/include/projdefs.h \
- C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/include/portable.h \
- C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/include/deprecated_definitions.h \
- C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/portable/ARM_CM4F/portmacro.h \
- C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/include/mpu_wrappers.h \
- C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/include/task.h \
- C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/include/list.h
+ C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/include/FreeRTOS.h \
+ C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/include/FreeRTOSConfig.h \
+ C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/include/projdefs.h \
+ C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/include/portable.h \
+ C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/include/deprecated_definitions.h \
+ C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/portable/ARM_CM4F/portmacro.h \
+ C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/include/mpu_wrappers.h \
+ C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/include/task.h \
+ C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/include/list.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -69,12 +69,12 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/include/FreeRTOS.h:
-C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/include/FreeRTOSConfig.h:
-C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/include/projdefs.h:
-C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/include/portable.h:
-C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/include/deprecated_definitions.h:
-C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/portable/ARM_CM4F/portmacro.h:
-C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/include/mpu_wrappers.h:
-C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/include/task.h:
-C:/Users/USER/Downloads/lab_uart/lab_uart/FreeRTOS/include/list.h:
+C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/include/FreeRTOS.h:
+C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/include/FreeRTOSConfig.h:
+C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/include/projdefs.h:
+C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/include/portable.h:
+C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/include/deprecated_definitions.h:
+C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/portable/ARM_CM4F/portmacro.h:
+C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/include/mpu_wrappers.h:
+C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/include/task.h:
+C:/Users/YaTong/Desktop/embedded_system_final_project/FreeRTOS/include/list.h:

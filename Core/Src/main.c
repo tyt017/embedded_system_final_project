@@ -74,7 +74,46 @@ int day=1;
 int now=0;
 char MonitorTset[100];
 
-void lcd_init()
+void lcd_send_cmd(char cmd)
+{
+	char data_h,data_l;
+	uint8_t frame_data[4];
+	data_h = (cmd&0xf0);
+	data_l = ((cmd <<4)&0xf0);
+	frame_data[0] = data_h | 0x0C;
+	frame_data[1] = data_h | 0x08;
+	frame_data[2] = data_l | 0x0C;
+	frame_data[3] = data_l | 0x08;
+
+	HAL_I2C_Master_Transmit(&hi2c1,LCD_ADDRESS,(uint8_t *)frame_data,4,0x100);
+
+	//HAL_Delay(1);
+}
+
+void lcd_send_data(char data)
+{
+	char data_h,data_l;
+	uint8_t frame_data[4];
+	data_h = (data&0xf0);
+	data_l = ((data <<4)&0xf0);
+	frame_data[0] = data_h | 0x0D;
+	frame_data[1] = data_h | 0x09;
+	frame_data[2] = data_l | 0x0D;
+	frame_data[3] = data_l | 0x09;
+
+	HAL_I2C_Master_Transmit(&hi2c1,LCD_ADDRESS,(uint8_t *)frame_data,4,0x100);
+
+	//HAL_Delay(1);
+}
+
+void lcd_clear()
+{
+	lcd_send_cmd(0x01);
+	HAL_Delay(1);
+}
+
+
+void lcd_Init()
 {
 	HAL_Delay(50);
 	lcd_send_cmd(0x30);
@@ -96,22 +135,21 @@ void lcd_init()
 	HAL_Delay(1);
 	lcd_send_cmd(0x0C);		//Display on/off
 	HAL_Delay(1);
+
 }
 
-void lcd_send_data(char data)
+void lcd_send_string (char *str)
 {
-	char data_h,data_l;
-	uint8_t frame_data[4];
-	data_h = (data&0xf0);
-	data_l = ((data <<4)&0xf0);
-	frame_data[0] = data_h | 0x0D;
-	frame_data[1] = data_h | 0x09;
-	frame_data[2] = data_l | 0x0D;
-	frame_data[3] = data_l | 0x09;
+	while(*str)
+	{
+		lcd_send_data(*str++);
+	}
+	HAL_Delay(1);
+}
 
-	HAL_I2C_Master_Transmit(&hi2c1,LCD_ADDRESS,(uint8_t *)frame_data,4,0x100);
-
-	//HAL_Delay(1);
+void lcd_put_cur(uint8_t row,uint8_t col) // the address on the lcd screen
+{
+	lcd_send_cmd(0x80 | (col + (0x40 * row)));
 }
 
 void I2C_Scan(I2C_HandleTypeDef *hi2c) {
@@ -155,6 +193,13 @@ void COIN_Task() {
 		sprintf(MonitorTset,"The day is %d. Today already saved %d. The total value is %d.\n\r",day, now, total);
 		HAL_UART_Transmit(&huart2,(uint8_t *)MonitorTset,strlen(MonitorTset),0xffff);
 
+		lcd_clear();
+		lcd_put_cur(0,0);
+		lcd_send_string("Insert 10 dollar.");
+		lcd_put_cur(1,0);
+		sprintf(MonitorTset,"Total value is %d", total);
+		lcd_send_string(MonitorTset);
+
 		impulse = 0;
 	  }
 	  else if (i >= 5 && impulse == 2){
@@ -169,6 +214,13 @@ void COIN_Task() {
 		sprintf(MonitorTset,"The day is %d. Today already saved %d. The total value is %d.\n\r",day, now, total);
 		HAL_UART_Transmit(&huart2,(uint8_t *)MonitorTset,strlen(MonitorTset),0xffff);
 
+		lcd_clear();
+		lcd_put_cur(0,0);
+		lcd_send_string("Insert 5 dollar.");
+		lcd_put_cur(1,0);
+		sprintf(MonitorTset,"Total value is %d", total);
+		lcd_send_string(MonitorTset);
+
 		impulse = 0;
 	  }
 	  else if (i >= 5 && impulse == 3){
@@ -182,6 +234,13 @@ void COIN_Task() {
 
 		sprintf(MonitorTset,"The day is %d. Today already saved %d. The total value is %d.\n\r",day, now, total);
 		HAL_UART_Transmit(&huart2,(uint8_t *)MonitorTset,strlen(MonitorTset),0xffff);
+
+		lcd_clear();
+		lcd_put_cur(0,0);
+		lcd_send_string("Insert 1 dollar.");
+		lcd_put_cur(1,0);
+		sprintf(MonitorTset,"Total value is %d", total);
+		lcd_send_string(MonitorTset);
 
 		impulse=0;
 	  }
@@ -256,23 +315,27 @@ int main(void)
   MX_USART2_UART_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-  xTaskCreate(
-		  COIN_Task,
-		  "NAME",
-		  128,
-		  NULL,
-		  1,
-		  &xcoinHandle);
 
-  xTaskCreate(
-		  incomingImpulse,
-  		  "NAME",
-  		  128,
-  		  NULL,
-  		  1,
-  		  &xpulseHandle);
+  HAL_Delay(30);
+  lcd_Init();
 
-  vTaskStartScheduler();
+//  xTaskCreate(
+//		  COIN_Task,
+//		  "COIN_Task",
+//		  128,
+//		  NULL,
+//		  1,
+//		  &xcoinHandle);
+//
+//  xTaskCreate(
+//		  incomingImpulse,
+//  		  "Impulse",
+//  		  128,
+//  		  NULL,
+//  		  1,
+//  		  &xpulseHandle);
+
+//  vTaskStartScheduler();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -285,7 +348,13 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  lcd_put_cur(0,0);
+	  lcd_send_string("Coin task test");
+	  lcd_put_cur(1,0);
+	  lcd_send_string("Total value is 100");
+	  HAL_Delay(1000);
+	  lcd_clear();
+	  HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
