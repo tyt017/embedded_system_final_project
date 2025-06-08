@@ -108,14 +108,14 @@ void lcd_send_data(char data)
 
 void lcd_clear()
 {
-	lcd_send_cmd(0x01);
+	lcd_send_cmd(0x01); // clear display
 	HAL_Delay(1);
 }
 
 
 void lcd_Init()
 {
-	HAL_Delay(50);
+	HAL_Delay(50); // 8-bit initialization start
 	lcd_send_cmd(0x30);
 	HAL_Delay(5);
 	lcd_send_cmd(0x30);
@@ -123,7 +123,7 @@ void lcd_Init()
 	lcd_send_cmd(0x30);
 	HAL_Delay(10);
 	lcd_send_cmd(0x20);
-	HAL_Delay(10);
+	HAL_Delay(10); // 8-bit initialization finish
 
 	lcd_send_cmd(0x28);		//function set
 	HAL_Delay(1);
@@ -131,7 +131,7 @@ void lcd_Init()
 	HAL_Delay(1);
 	lcd_send_cmd(0x01);		//clear display
 	HAL_Delay(1);
-	lcd_send_cmd(0x06);		//Enter mode
+	lcd_send_cmd(0x06);		//Enter mode set
 	HAL_Delay(1);
 	lcd_send_cmd(0x0C);		//Display on/off
 	HAL_Delay(1);
@@ -147,7 +147,7 @@ void lcd_send_string (char *str)
 	HAL_Delay(1);
 }
 
-void lcd_put_cur(uint8_t row,uint8_t col) // the address on the lcd screen
+void lcd_put_cur(uint8_t row,uint8_t col) // the location on the lcd screen
 {
 	lcd_send_cmd(0x80 | (col + (0x40 * row)));
 }
@@ -180,7 +180,7 @@ void COIN_Task() {
 	for (;;) {
 	  i = i + 1;
 
-	  if (i >= 5 && impulse == 1){
+	  if (i >= 5 && impulse == 1){ // 10 dollar
 		total = total + 10;
 		now = now + 10;
 
@@ -202,7 +202,7 @@ void COIN_Task() {
 
 		impulse = 0;
 	  }
-	  else if (i >= 5 && impulse == 2){
+	  else if (i >= 5 && impulse == 2){ // 5 dollar
 		total = total + 5;
 		now = now + 5;
 
@@ -223,7 +223,7 @@ void COIN_Task() {
 
 		impulse = 0;
 	  }
-	  else if (i >= 5 && impulse == 3){
+	  else if (i >= 5 && impulse == 3){ // 1 dollar
 		total = total + 1;
 		now = now + 1;
 
@@ -271,16 +271,6 @@ void USART_Test(void *pvParameters){
 	}
 }
 
-void LED_Task( void ){
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15, GPIO_PIN_RESET);
-	for(;;){
-
-		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET );
-		vTaskDelay(500);
-		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET );
-		vTaskDelay(500);
-	}
-}
 /* USER CODE END 0 */
 
 /**
@@ -319,23 +309,23 @@ int main(void)
   HAL_Delay(30);
   lcd_Init();
 
-//  xTaskCreate(
-//		  COIN_Task,
-//		  "COIN_Task",
-//		  128,
-//		  NULL,
-//		  1,
-//		  &xcoinHandle);
-//
-//  xTaskCreate(
-//		  incomingImpulse,
-//  		  "Impulse",
-//  		  128,
-//  		  NULL,
-//  		  1,
-//  		  &xpulseHandle);
+  xTaskCreate(
+		  COIN_Task,
+		  "COIN_Task",
+		  128,
+		  NULL,
+		  1,
+		  &xcoinHandle);
 
-//  vTaskStartScheduler();
+  xTaskCreate(
+		  incomingImpulse,
+  		  "Impulse",
+  		  128,
+  		  NULL,
+  		  1,
+  		  &xpulseHandle);
+
+  vTaskStartScheduler();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -348,13 +338,13 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  lcd_put_cur(0,0);
-	  lcd_send_string("Coin task test");
-	  lcd_put_cur(1,0);
-	  lcd_send_string("Total value is 100");
-	  HAL_Delay(1000);
-	  lcd_clear();
-	  HAL_Delay(1000);
+//	  lcd_put_cur(0,0);
+//	  lcd_send_string("Coin task test");
+//	  lcd_put_cur(1,0);
+//	  lcd_send_string("Total value is 100");
+//	  HAL_Delay(1000);
+//	  lcd_clear();
+//	  HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
